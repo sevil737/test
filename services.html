@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pac-Man Animation</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #000;
+      }
+      canvas {
+        border: 2px solid #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="pacmanCanvas" width="200" height="200"></canvas>
+
+    <script>
+      const canvas = document.getElementById("pacmanCanvas");
+      const ctx = canvas.getContext("2d");
+
+      const pacman = {
+        x: 100,
+        y: 100,
+        radius: 50,
+        angleStart: 0.2, // Opening angle
+        angleEnd: 1.8, // Closing angle
+        mouthSpeed: 0.05, // Speed of mouth animation
+        open: true,
+      };
+
+      function drawPacman() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+        ctx.beginPath();
+        ctx.arc(
+          pacman.x,
+          pacman.y,
+          pacman.radius,
+          pacman.angleStart * Math.PI,
+          pacman.angleEnd * Math.PI
+        ); // Draw Pac-Man
+        ctx.lineTo(pacman.x, pacman.y); // Draw the center line
+        ctx.fillStyle = "yellow";
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      function updateMouth() {
+        if (pacman.open) {
+          pacman.angleStart -= pacman.mouthSpeed; // Open mouth
+          pacman.angleEnd += pacman.mouthSpeed;
+          if (pacman.angleStart <= 0) {
+            pacman.open = false; // Switch to closing
+          }
+        } else {
+          pacman.angleStart += pacman.mouthSpeed; // Close mouth
+          pacman.angleEnd -= pacman.mouthSpeed;
+          if (pacman.angleStart >= 0.2) {
+            pacman.open = true; // Switch to opening
+          }
+        }
+      }
+
+      function animate() {
+        drawPacman();
+        updateMouth();
+        requestAnimationFrame(animate); // Keep the animation going
+      }
+
+      animate(); // Start the animation
+    </script>
+  </body>
+</html>
