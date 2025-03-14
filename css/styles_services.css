@@ -1,0 +1,12 @@
+a {
+    color: white;
+    transition: ease-in-out;
+    transition-duration: 0.30s;
+    border-radius: 25%;
+    padding: 20px;
+
+}
+a:hover {
+    color:yellow;
+    background-color: rgb(178, 178, 104);
+}
