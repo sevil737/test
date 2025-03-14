@@ -23,23 +23,48 @@
     </style>
   </head>
   <body>
-    <canvas id="pacmanCanvas" width="200" height="200"></canvas>
+    <canvas id="pacmanCanvas1" width="200" height="200"></canvas>
+    <canvas id="pacmanCanvas2" width="200" height="200"></canvas>
+    <canvas id="pacmanCanvas3" width="200" height="200"></canvas>
 
     <script>
-      const canvas = document.getElementById("pacmanCanvas");
-      const ctx = canvas.getContext("2d");
+      const pacmanData = [
+        {
+          canvasId: "pacmanCanvas1",
+          x: 100,
+          y: 100,
+          radius: 90,
+          angleStart: 1,
+          angleEnd: -0.2,
+          mouthSpeed: 0.001,
+          open: true,
+        },
+        {
+          canvasId: "pacmanCanvas2",
+          x: 100,
+          y: 100,
+          radius: 50,
+          angleStart: 0.2,
+          angleEnd: 1.8,
+          mouthSpeed: 0.05,
+          open: true,
+        },
+        {
+          canvasId: "pacmanCanvas3",
+          x: 100,
+          y: 100,
+          radius: 50,
+          angleStart: -0.2,
+          angleEnd: 1.8,
+          mouthSpeed: 0.004,
+          open: true,
+        },
+      ];
 
-      const pacman = {
-        x: 100,
-        y: 100,
-        radius: 50,
-        angleStart: 0.2, // Opening angle
-        angleEnd: 1.8, // Closing angle
-        mouthSpeed: 0.05, // Speed of mouth animation
-        open: true,
-      };
+      function drawPacman(canvasId, pacman) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext("2d");
 
-      function drawPacman() {
         ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
 
         ctx.beginPath();
@@ -56,7 +81,7 @@
         ctx.closePath();
       }
 
-      function updateMouth() {
+      function updateMouth(pacman) {
         if (pacman.open) {
           pacman.angleStart -= pacman.mouthSpeed; // Open mouth
           pacman.angleEnd += pacman.mouthSpeed;
@@ -73,8 +98,10 @@
       }
 
       function animate() {
-        drawPacman();
-        updateMouth();
+        pacmanData.forEach((pacman) => {
+          drawPacman(pacman.canvasId, pacman);
+          updateMouth(pacman);
+        });
         requestAnimationFrame(animate); // Keep the animation going
       }
 
